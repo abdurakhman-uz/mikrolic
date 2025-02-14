@@ -1,216 +1,111 @@
-<html lang="en">
-
+<!doctype html>
+<html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Mikrotik License Generator</title>
+    <meta charset="utf-8" />
+    <title>MeGa-TiK VPN</title>
+    <meta name="csrf-token" content="vPXx5X0jFVIqMsvTDaN3EBn9oBW4pVw2d4xWLp07">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://mikrotik.com/img/mtv2/newlogo.svg">
+    <link href="https://vpn.mega-tik.com/assets/css/bootstrap-ltr.css" rel="stylesheet" type="text/css" />
+    <link href="https://vpn.mega-tik.com/assets/css/icons.css" rel="stylesheet" type="text/css" />
+    <link href="https://vpn.mega-tik.com/assets/css/app-ltr.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://vpn.mega-tik.com/assets/css/style.css?ver=1739509722" rel="stylesheet" type="text/css" />
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400&display=swap');
-
-        body {
-            font-family: 'Comfortaa', sans-serif;
-            background-color: #f3f3f3;
-            margin: 0;
-            padding: 0;
-        }
-
         .container {
-            min-width: 1200px;
-            min-height: 700px;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .con_div {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .out_div {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-
-            background-color: #f3f3f3;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            margin-bottom: 20px;
-            color: #333;
-            font-size: 32px;
-            font-weight: 500;
-        }
-
-        .key_div {
-            min-width: 700px;
-            max-width: 700px;
-            width: 100%;
-            height: 250px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .container div input {
-            height: 35px;
-            width: 235px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            outline: none;
-            padding:15px;
-            text-align: center;
-        }
-
-        p {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            text-align: center;
-        }
-
-        code {
-            margin: 0;
-            padding: 0;
-        }
-
-        .dpview {
-            display: block;
-        }
-
-        .dpnone {
-            display: none;
-        }
-
-        .button {
-            border: 1px solid #ccc;
-            border-radius: 12px;
-            padding: 10px 16px;
-            background: none;
-            cursor: pointer;
-            display: none;
-        }
-
-        .button:hover,
-        .button:active {
-            background: #ccc;
-        }
-
-        #wait {
-            display: none;
+            margin-top: 10vh;
         }
     </style>
 </head>
-
 <body>
     <div class="container">
-        <div class="con_div">
-            <h1>Mikrotik License Generator</h1>
-            <div class="key_div">
-                <input spellcheck="false" autocomplete="off" id="uid" name="uid" type="text">
-                <button id="keygen" class="button">Generate</button>
-                <br>
-                <p id="wait">Wait...</p>
-                <div id="out_div" class="out_div">
-                    <code id="key_l1"></code>
-                    <code id="key_l21"></code>
-                    <code id="key_l22"></code>
-                    <code id="key_l3"></code>
+        <div class="row justify-content-center align-items-center">
+            <form>          
+                <div class="card rounded-3">
+                    <div class="card-header justify-content-center">
+                        <div class="logo text-center">
+                            <img src="https://mikrotik.com/img/mtv2/newlogo.svg" alt="MeGa-TiK" height="60">
+                            <h5 class="text-center fw-bold text-danger">Generate Mikrotik License</h5>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <h6>Software ID</h6>
+                                    <div class="input-group">
+                                        <div class="input-group-text"><i class="fa fa-server"></i></div>
+                                        <input type="text" class="form-control" id="software_id" placeholder="Enter Your Mikrotik Software ID" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
+                        <div class="row d-none" id="result_container">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <h6 class="text-center">-- License Key --</h6>
+                                    <div class="input-group">
+                                        <textarea title="license_key" class="form-control" id="result_box" rows="5" dir="ltr" readonly></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <h6 class="text-bold lh-lg text-center text-danger">Please Copy License Key To Your Mikrotik Terminal Then Reboot To Activate License</h6>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <button type="button" id="keygen_btn" class="btn btn-success">Generate License Key</button>
+                        <button type="button" id="copy_btn" class="btn btn-primary">Copy License Key</button>
+                    </div>
                 </div>
-
-                <button id="button" class="button">Copy</button>
-            </div>
+            </form>
         </div>
-        <p>ver: v2.1.1</p>
     </div>
-</body>
-
-<script>
-    var key_listener = document.getElementById("uid");
-    let key_l1 = document.getElementById("key_l1");
-    let key_out1 = document.getElementById("key_l21");
-    let key_out2 = document.getElementById("key_l22");
-    let key_l3 = document.getElementById("key_l3");
-    let btn = document.getElementById("button");
-    let btngen = document.getElementById("keygen");
-    let wait = document.getElementById("wait");
-    let box = document.getElementById("out_div");
-    btngen.style = "display: block"
-    var key_val = key_listener.value;
-
-    keygen.addEventListener("click", () => {
-        const enc = key_listener.value;
-        key_l1.textContent = ``
-        key_out1.textContent = ``
-        key_out2.textContent = ``
-        key_l3.textContent = ``
-        btn.style = "display: none"
-        box.style = "display: none"
-        wait.style = "display: block"
-
-        fetch('https://milec.memfispro.uz/api/gen', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                id: enc,
-                lvl: 6
+    <script src="https://vpn.mega-tik.com/assets/libs/jquery/jquery.min.js"></script>
+    <script src="https://vpn.mega-tik.com/assets/libs/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+        var software_id = document.getElementById("software_id");
+        let result_box = document.getElementById("result_box");
+        let result_container = document.getElementById("result_container");
+        let keygen_btn = document.getElementById("keygen_btn");
+        keygen_btn.addEventListener("click", () => {
+            $(this).prop('disabled', true);
+            fetch('https://milec.memfispro.uz/api/gen', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    id: software_id.value,
+                    lvl: 6
+                })
             })
-        })
             .then(res => res.json())
             .then(data => {
-
                 if (data.code == 0x901 || data.code == 0x902 || data.code == 0x903) {
                     data = data.msg.toString();
-                    wait.style = "display: none"
-                    key_out1.textContent = data;
-                    box.style = "display: flex"
+                    result_box.value = data;
+                    result_container.classList.remove("d-none");
                     return;
                 } else {
                     data = data.msg.toString();
                     console.log(data.msg);
-                    wait.style = "display: none"
-                    key_l1.textContent = `-----BEGIN MIKROTIK SOFTWARE KEY------------`
-                    key_out1.textContent = `${data.slice(0, data.length / 2)}`
-                    key_out2.textContent = `${data.slice((data.length / 2), (data.length))}`
-                    key_l3.textContent = `-----END MIKROTIK SOFTWARE KEY--------------`
-                    box.style = "display: flex"
-                    btn.style = "display: block"
+                    result_box.value = `-----BEGIN MIKROTIK SOFTWARE KEY------------\n` + `${data.slice(0, data.length / 2)}\n` + `${data.slice((data.length / 2), (data.length))}\n` + `-----END MIKROTIK SOFTWARE KEY--------------\n`
+                    result_container.classList.remove("d-none");
                 }
 
             })
-    })
-
-    btn.addEventListener('click', function () {
-
-        let combinedText = key_l1.textContent + '\n' + key_out1.textContent + '\n' + key_out2.textContent + '\n' + key_l3.textContent;
-
-        navigator.clipboard.writeText(combinedText).then(function () {
-            alert('Text copied to clipboard!');
-        }).catch(function (err) {
-            console.error('Could not copy text: ', err);
+        })
+    
+        document.getElementById("copy_btn").addEventListener('click', function () {
+            navigator.clipboard.writeText(result_box.value).then(function () {
+                alert('Text copied to clipboard!');
+            }).catch(function (err) {
+                console.error('Could not copy text: ', err);
+            });
         });
-    });
-
-</script>
-
-</body>
-
+    
+    </script>
+    </body>
 </html>
