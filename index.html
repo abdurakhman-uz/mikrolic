@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, viewport-fit=cover">
+    <!-- font -->
+    <link rel="stylesheet" href="fonts/fonts.css">
+    <!-- Icons -->
+    <link rel="stylesheet" href="fonts/font-icons.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+
+    <title>Login</title>
+</head>
+
+<body>
+
+    <!-- preloade -->
+    <div class="preload preload-container">
+        <div class="logo-img">
+            <img src="images/logo.svg" alt="logo">
+        </div>
+    </div>
+    <!-- /preload -->
+    <div class="header fixed-top line-bt">
+        <h5>Mikrotik GenKey</h5>
+    </div>
+
+
+    <div class="app-content style-3 pb-32 signIn-area">
+        <div class="tf-container">
+            <br>
+            <p class="body-6 text-black-5">Software ID</p>
+            <fieldset class="input-icon mt-20">
+                <span class="icon icon-key-id"></span>
+                <input id="software_id" type="text" placeholder="Type your software ID" class="form-control">
+            </fieldset>
+            <fieldset id="result_container" class="d-none">
+                <br>
+                <textarea name="textarea" id="result_box" readonly disabled>
+
+                </textarea>
+            </fieldset>
+            <button id="load_btn" class="mt-48 tf-btn primary d-none">
+                <svg id="wait" class='circle' xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    viewBox="0 0 24 24" fill="none">
+                    <path
+                        d="M16.4749 0.865569C18.9244 1.85004 20.981 3.61484 22.326 5.88655C23.6709 8.15827 24.2292 10.8101 23.9143 13.4313C23.5995 16.0524 22.429 18.4966 20.5842 20.3851C18.7395 22.2737 16.3235 23.5012 13.7104 23.8775L13.4261 21.9033C15.6049 21.5895 17.6193 20.5661 19.1574 18.9914C20.6955 17.4168 21.6715 15.3789 21.934 13.1934C22.1966 11.0079 21.7311 8.79682 20.6097 6.90269C19.4882 5.00856 17.7735 3.5371 15.7311 2.71626L16.4749 0.865569Z"
+                        fill="#fff" />
+                </svg>
+            </button>
+            <button id="keygen_btn" class="mt-48 tf-btn primary">Generate</button>
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+
+    <script>
+        var software_id = document.getElementById("software_id");
+        let result_box = document.getElementById("result_box");
+        let result_container = document.getElementById("result_container");
+        let keygen_btn = document.getElementById("keygen_btn");
+        let load_btn = document.getElementById("load_btn");
+        let wait = document.getElementById("wait");
+
+        keygen_btn.addEventListener("click", () => {
+
+            result_container.classList.add("d-none");
+            keygen_btn.classList.add("d-none");
+            wait.classList.remove("d-none");
+            load_btn.classList.remove("d-none");
+
+            $(this).prop('disabled', true);
+            fetch('https://milec.memfispro.uz/api/gen', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    id: software_id.value,
+                    lvl: 6
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.code == 0x901 || data.code == 0x902 || data.code == 0x903) {
+                        data = data.msg.toString();
+                        result_box.value = data;
+                        wait.classList.add("d-none");
+                        result_container.classList.remove("d-none");
+                        load_btn.classList.add("d-none");
+                        keygen_btn.classList.remove("d-none");
+                        return;
+                    } else {
+                        data = data.msg.toString();
+                        console.log(data);
+                        result_box.value = `-----BEGIN MIKROTIK SOFTWARE KEY------------\n` + `${data.slice(0, data.length / 2)}\n` + `${data.slice((data.length / 2), (data.length))}\n` + `-----END MIKROTIK SOFTWARE KEY--------------\n`
+                        wait.classList.add("d-none");
+                        result_container.classList.remove("d-none");
+                        load_btn.classList.add("d-none");
+                        keygen_btn.classList.remove("d-none");
+                    }
+
+                })
+        })
+
+        // document.getElementById("copy_btn").addEventListener('click', function () {
+        //     navigator.clipboard.writeText(result_box.value).then(function () {
+        //         alert('Text copied to clipboard!');
+        //     }).catch(function (err) {
+        //         console.error('Could not copy text: ', err);
+        //     });
+        // });
+
+    </script>
+</body>
+
+</html>
